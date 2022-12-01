@@ -1,10 +1,14 @@
+import java.lang.Integer.max
+
 fun main() {
     fun part1(input: List<String>): Int {
         var caloriesForElf = 0
         val caloriesByElves: MutableList<Int> = mutableListOf()
+        var max = 0
         input.forEach {
             if (it.isEmpty() || it.toIntOrNull() == null) {
                 // next elf
+                max = max(max, caloriesForElf)
                 caloriesByElves.add(caloriesForElf)
                 caloriesForElf = 0
             } else {
@@ -12,7 +16,7 @@ fun main() {
                 caloriesForElf += it.toInt()
             }
         }
-        return caloriesByElves.max()
+        return max
     }
 
     // test if implementation meets criteria from the description, like:
