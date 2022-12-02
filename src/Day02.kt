@@ -65,7 +65,7 @@ fun main() {
     }
 
     fun readRounds(input: List<String>): List<Pair<String, String>> {
-        return input.map { it.split(" ").take(2).zipWithNext() }.flatten()
+        return input.map { it.split(" ").let { it[0] to it[1] } }
     }
 
     fun countPoints(round: Pair<String, String>): Int {
