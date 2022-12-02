@@ -43,21 +43,21 @@ fun main() {
     fun evalWin2(round: Pair<String, String>): Int {
         return when (round.second) {
             "X" -> when (round.first) {
-                "A" -> values["Z"]!!
-                "B" -> values["X"]!!
-                "C" -> values["Y"]!!
+                "A" -> 3
+                "B" -> 1
+                "C" -> 2
                 else -> 0
             } + 0
             "Y" -> when (round.first) {
-                "A" -> values["X"]!!
-                "B" -> values["Y"]!!
-                "C" -> values["Z"]!!
+                "A" -> 1
+                "B" -> 2
+                "C" -> 3
                 else -> 0
             } + 3
             "Z" -> when (round.first) {
-                "A" -> values["Y"]!!
-                "B" -> values["Z"]!!
-                "C" -> values["X"]!!
+                "A" -> 2
+                "B" -> 3
+                "C" -> 1
                 else -> 0
             } + 6
             else -> 0
