@@ -10,16 +10,11 @@ data class TempFile(
   ${if (!isDir) "" else "- ${children?.map { it.toString() }}"}
         """.trimIndent()
     }
-
 }
 
 
 fun main() {
     var root = TempFile(name = "root", isDir = true, children = mutableListOf(), parentName = "")
-
-    fun TempFile.findDir(nextDir: String): TempFile? {
-        return this.children?.first { file -> nextDir == file.name }
-    }
 
     fun fillFileSystem(inputs: List<String>): TempFile {
         var parents = mutableListOf<TempFile>()
@@ -27,7 +22,6 @@ fun main() {
         var currentFile: TempFile = root
         inputs.forEach {
             if (it.startsWith("$")) {
-                //write current file to tree
                 //commands
                 if (it == "\$ cd /") {
                     //go to root dir
@@ -35,13 +29,11 @@ fun main() {
                 } else if (it.startsWith("\$ cd")) {
                     currentFile = if (it.endsWith("..")) {
                         //move level up
-//                        println("Parents length = ${parents.size}")
                         parents = parents.dropLast(1).toMutableList()
                         parents.last()
                     } else {
                         val nextDir = it.substringAfter("cd ")
-//                        println("subfolder = $nextDir")
-                        val nextFile = currentFile.findDir(nextDir)!!
+                        val nextFile = currentFile.children?.first { file -> nextDir == file.name }!!
                         parents.add(nextFile)
                         nextFile
                     }
@@ -76,20 +68,13 @@ fun main() {
     val folderSizes = mutableListOf<Int>()
 
     fun getSubfolderSizes(file: TempFile): Int {
-        val partitions = file.children.orEmpty().partition { it.isDir }
-        val folders = partitions.first
+        val (folders, files) = file.children.orEmpty().partition { it.isDir }
         val foldersSize = folders.sumOf {
             getSubfolderSizes(it)
         }
-        val files = partitions.second
         val size = files.sumOf { it.size!! } + foldersSize
-        val normalized = size.also {
-            if (size != 0) println("Folder ${file.parentName}/${file.name} = $size")
-        }
-        if (normalized != 0) {
-            folderSizes.add(normalized)
-        }
-        return normalized
+        folderSizes.add(size)
+        return size
     }
 
 
