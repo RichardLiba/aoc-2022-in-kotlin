@@ -6,9 +6,9 @@ fun main() {
     }
 
     fun visibleTrees(grid: List<List<Int>>): Int {
-        val visible = Array(grid.size) { BooleanArray(grid[0].size) }
         val n = grid.size
         val m = grid[0].size
+        val visible = Array(n) { BooleanArray(m) }
         for (i in grid.indices) {
             var heighest = -1
             var heighestOtherDir = -1
